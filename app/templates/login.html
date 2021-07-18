@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <!-- <h1>Sign In</h1>
+    <form  action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.username.label}}
+            <br>
+            {{ form.username(size=32) }}
+            <br>
+            {% for error in form.username.errors %}
+            <span style="color:red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.password.label}}
+            <br>
+            {{ form.password(size=32) }}
+            <br>
+            {% for error in form.password.errors %}
+            <span style="color:red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.remember_me()}}
+            {{ form.remember_me.label }}
+        </p>
+        <p>
+            {{ form.submit()}}
+        </p>
+    </form>
+    <p>Forgot Your Password? <a href="{{ url_for('reset_password_request') }}">Click to Reset</a></p>
+    <p>New User? <a href="{{ url_for('register') }}">Click to Register!</a></p> -->
+
+    <div class="container ">
+        <div class="row justify-content-center">
+            <div class="col-10 col-sm-8 col-md-7 col-lg-4 forms mt-5">
+                <form action="" method="post" novalidate>
+                    {{ form.hidden_tag() }}
+                    <h2 class="text-center mb-4">Log in</h2>       
+                    <div class="form-group mb-2">
+                        {{ form.username( placeholder="Username", class_="form-control") }}
+                        {% for error in form.username.errors %}
+                        <p style="color:red;">[{{ error }}]</p>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group mb-2">
+                        {{ form.password( placeholder="Password", class="form-control") }}
+                        {% for error in form.password.errors %}
+                        <p style="color:red;">[{{ error }}]</p>
+                        {% endfor %}
+                    </div>
+                    <div class="form-group">
+                        {{ form.submit(value='Log in', class_="btn btn-primary btn1")}}
+                    </div>
+                    <div>
+                        {{ form.remember_me()}}
+                        {{ form.remember_me.label }}
+                        <a href="{{ url_for('reset_password_request') }}" class="float-right">Forgot Password?</a>
+                    </div>        
+                </form>
+                <p class="text-center"><a href="{{ url_for('register') }}">Create an Account</a></p>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

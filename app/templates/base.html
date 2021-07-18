@@ -1,0 +1,63 @@
+<html>
+    <head>
+        <title>{{ title }} - Microblog</title>
+        <link
+          rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+        <script
+          src="https://kit.fontawesome.com/c1fef7c07a.js"
+          crossorigin="anonymous"
+        ></script>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/app.css') }}" />
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-md shadow-sm px-3 py-0">
+            
+                <p class="navbar-brand pt-1 mb-1">Microblog</p>
+                <button
+                  class="navbar-toggler"
+                  type="button"
+                  data-toggle="collapse"
+                  data-target="#navbarNavAltMarkup"
+                  aria-controls="navbarNavAltMarkup"
+                  aria-expanded="false"
+                  aria-label="Toggle navigation"
+                >
+                  <span class="navbar-toggler-icon"
+                    ><i class="fas fa-bars" style="color: black; font-size: 28px"></i
+                  ></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                  <div class="navbar-nav">
+
+                    <a class="nav-item nav-link ml-lg-5" href='{{ url_for("index") }}'>Home</a>
+                    {% if current_user.is_anonymous %}
+                    <a class="nav-item nav-link ml-lg-3" href="{{ url_for('login') }}">Login</a>
+                    {% else %}
+                    <a class="nav-item nav-link ml-lg-3" href="{{ url_for('explore') }}">Explore</a>
+                    <a class="nav-item nav-link ml-lg-3" href="{{ url_for('user', username=current_user.username) }}">Profile</a>
+                    <a class="nav-item nav-link ml-lg-3" href='{{ url_for("logout") }}'>Logout</a>
+                    {% endif %}
+                  </div>
+                </div>
+            
+        </nav>
+
+        <div class="container pt-3">
+            {% with messages =  get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                <div class="alert alert-info mb-0" role="alert">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+            {% endwith %}  
+        </div>   
+        <divs>
+            {% block content %} {% endblock %} 
+        </div>  
+    </body>
+</html>

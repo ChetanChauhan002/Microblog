@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+        <table>
+            <tr>
+                <td  ><img class="p-2" src = "{{ user.avatar(100) }}" ></td>
+                <td class="pl-5">
+                    <h1>User : {{ user.username }}</h1>
+
+                    {% if user.about_me %}
+                        <p>{{ user.about_me }}</p>
+                    {% endif %}
+
+                    {% if user.last_seen %}
+                        <p>Last seen on : <b>{{ user.last_seen }}</b></p>
+                    {% endif %}
+
+                    {% if user == current_user %}
+
+                        <p>
+
+                            {% if user.followers.count()>0  %}
+                                <a class="btn btn-light" href="{{ url_for('user_followers', username=user.username) }}">{{ user.followers.count() }} followers</a>
+                            {% else %}
+                                <a class="btn btn-light disabled" >{{ user.followers.count() }} followers</a>
+                            {% endif %}
+
+                            {% if user.followed.count()>0  %}
+                                <a class="btn btn-light ml-3" href="{{ url_for('user_followings', username=user.username) }}">{{ user.followed.count() }} following</a>
+                            {% else %}
+                                <a class="btn btn-light disabled ml-3" >{{ user.followed.count() }} following</a>
+                            {% endif %}
+                                
+                        </p>
+                        
+                        <p><a class="btn btn-primary" href="{{ url_for('edit_profile') }}">Edit your profile</a></p>
+
+                    {% elif not current_user.is_following(user) %}
+                        <p><a class="btn btn-light disabled">{{ user.followers.count() }} followers</a><a class="btn btn-light disabled ml-3">{{ user.followed.count() }} following</a></p>
+                        <p>
+                            <form action="{{ url_for('follow', username=user.username) }}" method="post">
+                                {{ form.hidden_tag() }}
+                                {{ form.submit(value='Follow', class_="btn btn-primary btn")}}
+                            </form>
+                        </p>
+                    {% else %}
+
+                        {% if user.followers.count()>0  %}
+                            <a class="btn btn-light" href="{{ url_for('user_followers', username=user.username) }}">{{ user.followers.count() }} followers</a>
+                        {% else %}
+                            <a class="btn btn-light disabled" >{{ user.followers.count() }} followers</a>
+                        {% endif %}
+
+                        {% if user.followed.count()>0  %}
+                            <a class="btn btn-light ml-3" href="{{ url_for('user_followings', username=user.username) }}">{{ user.followed.count() }} following</a>
+                        {% else %}
+                            <a class="btn btn-light disabled ml-3" >{{ user.followed.count() }} following</a>
+                        {% endif %}
+
+                        <p>
+                            <form action="{{ url_for('unfollow', username=user.username) }}" method="post">
+                                {{ form.hidden_tag() }}
+                                {{ form.submit(value='Unfollow', class_="btn btn-primary btn")}}
+                            </form>
+                        </p>
+                    {% endif %}
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="px-2 pt-4">
+        <h3>Your posts :</h3>
+        {% for post in posts %}
+            {% include "_post.html" %}
+        {% endfor %}
+        {% if prev_url %}
+            <a href="{{ prev_url }}">Newer posts</a>
+        {% endif %}
+        {% if next_url %}
+            <a href="{{ next_url }}">Older posts</a>
+        {% endif %}
+    </div>
+
+{%  endblock %}
